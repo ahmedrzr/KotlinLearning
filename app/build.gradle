@@ -47,4 +47,29 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+
+
+    // For Recycler View
+    implementation("androidx.recyclerview:recyclerview:1.2.1")
+    // For control over item selection of both touch and mouse driven selection
+    implementation("androidx.recyclerview:recyclerview-selection:1.1.0")
+    // For CardView
+    implementation("androidx.cardview:cardview:1.0.0")
+
+    //For Glide Image processing
+    implementation("com.github.bumptech.glide:glide:4.13.0")
+    annotationProcessor("com.github.bumptech.glide:compiler:4.13.0")
+
+    //ViewModel and livedata
+    implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
+    //Retrofit and logging
+    implementation 'com.google.code.gson:gson:2.8.6'
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation "com.squareup.okhttp3:okhttp:4.9.3"
+    implementation "com.squareup.okhttp3:logging-interceptor:4.9.3"
+
+    // For Coroutine
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0"
 }
