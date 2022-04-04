@@ -21,6 +21,13 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+        debug {
+            versionNameSuffix ".dev"
+            debuggable true
+            buildConfigField "String", "PIXABAY_URL", "\"https://pixabay.com\""
+            buildConfigField "String", "PIXABAY_KEY", "\"14778360-7c7caa5354b504e735004465c\""
+        }
+
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
