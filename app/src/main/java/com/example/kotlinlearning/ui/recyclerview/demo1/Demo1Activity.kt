@@ -7,7 +7,10 @@ import android.view.MenuItem
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.kotlinlearning.adapters.PixabayDemo1Adapter
 import com.example.kotlinlearning.databinding.ActivityRecyclerDemoBinding
+import com.example.kotlinlearning.models.remote.pixabay.Hit
 import com.example.kotlinlearning.network.apihelpers.Status
 import com.example.kotlinlearning.ui.recyclerview.KotlinLearningViewModelFactory
 import com.example.kotlinlearning.ui.recyclerview.repository.PixabayRepository
@@ -19,6 +22,8 @@ class Demo1Activity : AppCompatActivity() {
     private var _binding: ActivityRecyclerDemoBinding? = null
     private val binding get() = _binding!!
     private lateinit var demo1ViewModel: Demo1ViewModel
+    private var pixabayDemo1Adapter: PixabayDemo1Adapter? = null
+    private lateinit var layoutManager: LinearLayoutManager
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,11 +41,21 @@ class Demo1Activity : AppCompatActivity() {
             this,
             KotlinLearningViewModelFactory(pixabayRepository)
         )[Demo1ViewModel::class.java]
+        initRecyclerView()
         observer()
         initView()
         demo1ViewModel.queryPixabayApiService()
 
 
+    }
+
+    private fun initRecyclerView() {
+        pixabayDemo1Adapter = PixabayDemo1Adapter()
+        layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        binding.lyContents.recyclerView.let {
+            it.layoutManager = layoutManager
+            it.adapter = pixabayDemo1Adapter
+        }
     }
 
     private fun initView() {
@@ -61,6 +76,7 @@ class Demo1Activity : AppCompatActivity() {
                 Status.SUCCESS -> {
                     CustomLogging.normalLog(Demo1Activity::class.java, "SUCCESS")
                     CustomLogging.normalLog(Demo1Activity::class.java, it.data!!.size)
+                    pixabayDemo1Adapter?.updateItems(it.data as ArrayList<Hit>)
                 }
                 else -> {
                     CustomLogging.errorLog(Demo1Activity::class.java, it.message!!)

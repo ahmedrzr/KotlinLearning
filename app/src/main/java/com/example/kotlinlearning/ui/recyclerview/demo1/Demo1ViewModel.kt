@@ -18,7 +18,7 @@ class Demo1ViewModel(private val pixabayRepository: PixabayRepository) : ViewMod
     }
 
     private var queryName = MutableLiveData<String>(Constants.API_DEFAULT_SEARCH_QUERY1)
-    val getSearchQueryName get() = queryName.value!!
+    private val getSearchQueryName get() = queryName.value!!
     fun setSearchQueryName(q: String){queryName.value=q}
 
     fun queryPixabayApiService(query: String = getSearchQueryName) {
