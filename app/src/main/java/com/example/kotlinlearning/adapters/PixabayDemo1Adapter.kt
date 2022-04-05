@@ -1,5 +1,6 @@
 package com.example.kotlinlearning.adapters
 
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,26 +13,28 @@ import com.example.kotlinlearning.R
 import com.example.kotlinlearning.databinding.PixabayItemRowBinding
 import com.example.kotlinlearning.models.remote.pixabay.Hit
 import de.hdodenhof.circleimageview.CircleImageView
+import java.net.URL
 
 class PixabayDemo1Adapter : RecyclerView.Adapter<PixabayDemo1Adapter.PixabayHolder>() {
     private var pixabayImgList = ArrayList<Hit>()
 
     inner class PixabayHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        val profileImage = itemView.findViewById<ImageView>(R.id.profile_image)
+        val profileImage = itemView.findViewById<CircleImageView>(R.id.profile_image)
         val previewImage = itemView.findViewById<ImageView>(R.id.preview_image)
         val user = itemView.findViewById<TextView>(R.id.user)
         val userId = itemView.findViewById<TextView>(R.id.user_id)
         val tag = itemView.findViewById<TextView>(R.id.image_tag)
 
         fun bind(hit: Hit) {
+            previewImage.setImageURI(Uri.parse(hit.userImageURL))
+
             Glide.with(itemView.context).load(hit.previewURL)
                 .centerCrop()
                 .into(previewImage)
             user.text = hit.user
             userId.text = hit.user_id.toString()
             tag.text = hit.tags
-
         }
 
     }
