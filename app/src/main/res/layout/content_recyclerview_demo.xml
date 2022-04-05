@@ -28,6 +28,7 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="0dp"
+            android:id="@+id/textInputSearch"
             android:layout_height="wrap_content"
             android:layout_weight="8"
             android:text="search here..." />
@@ -35,6 +36,7 @@
         <ImageButton
             android:backgroundTint="@color/teal_800"
             android:layout_width="0dp"
+            android:id="@+id/btn_search"
             android:layout_height="wrap_content"
             android:layout_weight="2"
             android:src="@drawable/ic_search" />

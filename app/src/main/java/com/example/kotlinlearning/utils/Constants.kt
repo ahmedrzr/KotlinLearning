@@ -9,5 +9,5 @@ object Constants {
     const val demo = "demo"
     const val PIXABAY_KEY = BuildConfig.PIXABAY_KEY
     const val PIXABAY_URL = BuildConfig.PIXABAY_URL
-    const val API_DEFAULT_SEARCH_QUERY1 = "nora fatehi"
+    const val API_DEFAULT_SEARCH_QUERY1 = "actress"
 }

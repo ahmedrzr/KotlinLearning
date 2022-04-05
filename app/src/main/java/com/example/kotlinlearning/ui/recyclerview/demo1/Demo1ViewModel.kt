@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import com.example.kotlinlearning.models.remote.pixabay.Hit
 import com.example.kotlinlearning.network.apihelpers.Resource
 import com.example.kotlinlearning.ui.recyclerview.repository.PixabayRepository
+import com.example.kotlinlearning.utils.Constants
 import kotlinx.coroutines.*
 
 class Demo1ViewModel(private val pixabayRepository: PixabayRepository) : ViewModel() {
@@ -16,7 +17,11 @@ class Demo1ViewModel(private val pixabayRepository: PixabayRepository) : ViewMod
         onError("Error Triggered : ${throwable.localizedMessage}")
     }
 
-    fun queryPixabayApiService(query: String) {
+    private var queryName = MutableLiveData<String>(Constants.API_DEFAULT_SEARCH_QUERY1)
+    val getSearchQueryName get() = queryName.value!!
+    fun setSearchQueryName(q: String){queryName.value=q}
+
+    fun queryPixabayApiService(query: String = getSearchQueryName) {
         pixabayQueryImagesResponse.postValue(Resource.loading(null))
         job = CoroutineScope(Dispatchers.IO + exceptioHandler).launch {
             val response = pixabayRepository.queryPixabayImages(query)

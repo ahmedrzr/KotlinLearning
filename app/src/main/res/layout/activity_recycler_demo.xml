@@ -24,6 +24,7 @@
 
 
 
-    <include layout="@layout/content_recyclerview_demo" />
+    <include layout="@layout/content_recyclerview_demo"
+        android:id="@+id/ly_contents"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

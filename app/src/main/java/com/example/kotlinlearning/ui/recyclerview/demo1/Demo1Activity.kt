@@ -4,14 +4,14 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
-import android.widget.Toolbar
+import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.example.kotlinlearning.R
 import com.example.kotlinlearning.databinding.ActivityRecyclerDemoBinding
 import com.example.kotlinlearning.network.apihelpers.Status
 import com.example.kotlinlearning.ui.recyclerview.KotlinLearningViewModelFactory
 import com.example.kotlinlearning.ui.recyclerview.repository.PixabayRepository
+import com.example.kotlinlearning.utils.CustomLogging
 
 
 class Demo1Activity : AppCompatActivity() {
@@ -19,6 +19,7 @@ class Demo1Activity : AppCompatActivity() {
     private var _binding: ActivityRecyclerDemoBinding? = null
     private val binding get() = _binding!!
     private lateinit var demo1ViewModel: Demo1ViewModel
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,27 +30,40 @@ class Demo1Activity : AppCompatActivity() {
             it.title = "RecyclerView Demo 1"
             it.setDisplayHomeAsUpEnabled(true)
         }
+
         val pixabayRepository = PixabayRepository()
         demo1ViewModel = ViewModelProvider(
             this,
             KotlinLearningViewModelFactory(pixabayRepository)
         )[Demo1ViewModel::class.java]
-        demo1ViewModel.queryPixabayApiService("sex")
         observer()
+        initView()
+        demo1ViewModel.queryPixabayApiService()
 
+
+    }
+
+    private fun initView() {
+        binding.let {
+            it.lyContents.btnSearch.setOnClickListener { v: View ->
+                demo1ViewModel.setSearchQueryName(it.lyContents.textInputSearch.text.toString())
+                demo1ViewModel.queryPixabayApiService()
+            }
+        }
     }
 
     private fun observer() {
         demo1ViewModel.pixabayQueryImages.observe(this, Observer {
             when (it.status) {
                 Status.LOADING -> {
-                    Log.i(TAG, "observer: LOADING")
+                    CustomLogging.normalLog(Demo1Activity::class.java, "LOADING")
                 }
                 Status.SUCCESS -> {
-                    Log.i(TAG, "observer: SUCCESS")
+                    CustomLogging.normalLog(Demo1Activity::class.java, "SUCCESS")
+                    CustomLogging.normalLog(Demo1Activity::class.java, it.data!!.size)
                 }
                 else -> {
-                    Log.e(TAG, "observer: ${it.message}")
+                    CustomLogging.errorLog(Demo1Activity::class.java, it.message!!)
                 }
             }
         })
