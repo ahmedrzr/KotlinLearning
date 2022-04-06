@@ -12,11 +12,13 @@ import com.bumptech.glide.Glide
 import com.example.kotlinlearning.R
 import com.example.kotlinlearning.databinding.PixabayItemRowBinding
 import com.example.kotlinlearning.models.remote.pixabay.Hit
+import com.example.kotlinlearning.utils.CustomLogging
 import de.hdodenhof.circleimageview.CircleImageView
 import java.net.URL
 
 class PixabayDemo1Adapter : RecyclerView.Adapter<PixabayDemo1Adapter.PixabayHolder>() {
     private var pixabayImgList = ArrayList<Hit>()
+
 
     inner class PixabayHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
@@ -29,12 +31,16 @@ class PixabayDemo1Adapter : RecyclerView.Adapter<PixabayDemo1Adapter.PixabayHold
         fun bind(hit: Hit) {
             previewImage.setImageURI(Uri.parse(hit.userImageURL))
 
-            Glide.with(itemView.context).load(hit.previewURL)
+            Glide.with(itemView.context).load(hit.largeImageURL)
                 .centerCrop()
                 .into(previewImage)
             user.text = hit.user
             userId.text = hit.user_id.toString()
             tag.text = hit.tags
+        }
+
+        fun bindEmpty() {
+
         }
 
     }
@@ -53,10 +59,15 @@ class PixabayDemo1Adapter : RecyclerView.Adapter<PixabayDemo1Adapter.PixabayHold
         holder.bind(hit)
     }
 
+
     override fun getItemCount() = pixabayImgList.size
 
     fun updateItems(data: ArrayList<Hit>) {
+        pixabayImgList.clear()
         pixabayImgList = data
         notifyDataSetChanged()
+
     }
+
+
 }

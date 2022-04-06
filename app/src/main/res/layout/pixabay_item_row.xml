@@ -53,14 +53,15 @@
                         android:layout_gravity="center_vertical"
                         android:gravity="center_vertical"
                         android:text="sarangib"
-                        android:textAppearance="?attr/textAppearanceHeadline6" />
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/user_id"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="37542"
-                        android:textSize="18sp" />
+                        android:textSize="14sp" />
 
                 </LinearLayout>
 
@@ -90,8 +91,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Tags:"
-                        android:visibility="gone"
-                        android:textAppearance="?attr/textAppearanceHeadline6" />
+                        android:textAppearance="?attr/textAppearanceHeadline6"
+                        android:visibility="gone" />
 
                     <TextView
                         android:id="@+id/image_tag"
@@ -100,7 +101,7 @@
                         android:paddingStart="5dp"
                         android:paddingEnd="5dp"
                         android:text="magod falls, western ghats, water fall"
-                        android:textAppearance="?attr/textAppearanceHeadline6" />
+                        android:textSize="16sp" />
 
 
                 </LinearLayout>

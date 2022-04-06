@@ -1,5 +1,7 @@
 package com.example.kotlinlearning.models.remote.pixabay
 
+import com.example.kotlinlearning.utils.LayoutViewType
+
 data class Hit(
     val collections: Int,
     val comments: Int,
