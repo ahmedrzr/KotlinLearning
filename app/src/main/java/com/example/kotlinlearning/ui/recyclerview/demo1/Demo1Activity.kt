@@ -101,7 +101,7 @@ class Demo1Activity : AppCompatActivity() {
                     it.includeLyEmpty.lyEmpty.visibility = View.GONE
                     it.includeLyError.lyError.visibility = View.GONE
                     it.recyclerView.visibility = View.GONE
-                    Glide.with(this).load(R.drawable.loading_gif)
+                    Glide.with(this).load(R.drawable.loading_circle)
                         .into(it.includeLyLoading.loadingImg)
                 }
             }
