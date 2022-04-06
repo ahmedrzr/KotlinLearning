@@ -14,10 +14,10 @@ class PixabayRepository {
 
     suspend fun queryPixabayImagesByPagination(
         query: String,
-        pageNumber: Int
+        pageNumber: String
     ): Response<PixabayResponse> =
         RetrofitInstance
             .queryPixabayImages
-            .getQueryImagesWithPagination(q = query, page = pageNumber)
+            .getQueryImagesWithPagination(q = query, page = pageNumber.toInt())
 
 }

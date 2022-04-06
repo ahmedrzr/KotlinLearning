@@ -24,6 +24,8 @@ class Demo1ViewModel(private val pixabayRepository: PixabayRepository) : ViewMod
         queryName.value = q
     }
 
+    private var _totalHits = MutableLiveData<String>()
+    val totalHits get()=_totalHits.value
     fun queryPixabayApiService(query: String = getSearchQueryName) {
 
         pixabayQueryImagesResponse.postValue(Resource.loading(null))
@@ -31,6 +33,7 @@ class Demo1ViewModel(private val pixabayRepository: PixabayRepository) : ViewMod
             val response = pixabayRepository.queryPixabayImages(query)
             response.let {
                 if (it.isSuccessful) {
+                    _totalHits.postValue(it.body()!!.totalHits.toString())
                     pixabayQueryImagesResponse.postValue(Resource.success(it.body()?.hits))
                 } else {
                     onError(it.message())

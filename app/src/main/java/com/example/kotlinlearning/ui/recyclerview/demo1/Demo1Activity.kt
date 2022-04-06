@@ -114,7 +114,6 @@ class Demo1Activity : AppCompatActivity() {
                     it.includeLyError.lyError.visibility = View.GONE
                     it.recyclerView.visibility = View.GONE
                     it.lyCounter.visibility = View.GONE
-                    binding.hitCount.text = "0"
                 }
             }
             LayoutViewType.ERROR -> {
@@ -136,11 +135,11 @@ class Demo1Activity : AppCompatActivity() {
                     it.includeLyError.lyError.visibility = View.GONE
                     it.recyclerView.visibility = View.VISIBLE
                     it.lyCounter.visibility = View.VISIBLE
-                    it.currentCounter.text = hitData.
                 }
                 if (hitData != null) {
                     pixabayDemo1Adapter?.updateItems(hitData.data as ArrayList<Hit>)
-                    binding.hitCount.text = hitData.data!!.size.toString()
+                    binding.lyContents.currentCounter.text = hitData.data!!.size.toString()
+                    binding.lyContents.totalCounter.text = demo1ViewModel.totalHits
                 }
             }
         }
