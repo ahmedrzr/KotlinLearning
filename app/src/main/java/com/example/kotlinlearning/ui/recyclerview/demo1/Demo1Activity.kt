@@ -1,5 +1,6 @@
 package com.example.kotlinlearning.ui.recyclerview.demo1
 
+import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -101,6 +102,7 @@ class Demo1Activity : AppCompatActivity() {
                     it.includeLyEmpty.lyEmpty.visibility = View.GONE
                     it.includeLyError.lyError.visibility = View.GONE
                     it.recyclerView.visibility = View.GONE
+                    it.lyCounter.visibility = View.GONE
                     Glide.with(this).load(R.drawable.loading_circle)
                         .into(it.includeLyLoading.loadingImg)
                 }
@@ -111,6 +113,7 @@ class Demo1Activity : AppCompatActivity() {
                     it.includeLyEmpty.lyEmpty.visibility = View.VISIBLE
                     it.includeLyError.lyError.visibility = View.GONE
                     it.recyclerView.visibility = View.GONE
+                    it.lyCounter.visibility = View.GONE
                     binding.hitCount.text = "0"
                 }
             }
@@ -120,6 +123,7 @@ class Demo1Activity : AppCompatActivity() {
                     it.includeLyEmpty.lyEmpty.visibility = View.GONE
                     it.includeLyError.lyError.visibility = View.VISIBLE
                     it.recyclerView.visibility = View.GONE
+                    it.lyCounter.visibility = View.GONE
                     if (hitData != null) {
                         it.includeLyError.errorMsg.text = hitData.message
                     }
@@ -131,6 +135,8 @@ class Demo1Activity : AppCompatActivity() {
                     it.includeLyEmpty.lyEmpty.visibility = View.GONE
                     it.includeLyError.lyError.visibility = View.GONE
                     it.recyclerView.visibility = View.VISIBLE
+                    it.lyCounter.visibility = View.VISIBLE
+                    it.currentCounter.text = hitData.
                 }
                 if (hitData != null) {
                     pixabayDemo1Adapter?.updateItems(hitData.data as ArrayList<Hit>)
