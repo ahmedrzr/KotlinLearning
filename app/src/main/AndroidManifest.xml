@@ -12,6 +12,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.KotlinLearning">
         <activity
+            android:name=".ui.recyclerview.demo6.Demo6Activity"
+            android:exported="false"
+            android:theme="@style/Theme.KotlinLearning.NoActionBar"/>
+        <activity
+            android:name=".ui.recyclerview.demo5.Demo5Activity"
+            android:exported="false"
+            android:theme="@style/Theme.KotlinLearning.NoActionBar"/>
+        <activity
+            android:name=".ui.recyclerview.demo4.Demo4Activity"
+            android:exported="false"
+            android:theme="@style/Theme.KotlinLearning.NoActionBar"/>
+        <activity
             android:name=".ui.recyclerview.demo3.Demo3Activity"
             android:exported="false"
             android:theme="@style/Theme.KotlinLearning.NoActionBar" />

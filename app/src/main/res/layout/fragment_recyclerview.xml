@@ -53,6 +53,33 @@
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 app:backgroundTint="@null" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/demo4_btn"
+                style="@style/recycler_demo_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Demo4"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                app:backgroundTint="@null" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/demo5_btn"
+                style="@style/recycler_demo_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Demo5"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                app:backgroundTint="@null" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/demo6_btn"
+                style="@style/recycler_demo_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Demo6"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                app:backgroundTint="@null" />
         </LinearLayout>
 
     </ScrollView>

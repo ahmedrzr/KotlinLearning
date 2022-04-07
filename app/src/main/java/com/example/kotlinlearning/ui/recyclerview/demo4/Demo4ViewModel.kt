@@ -1,4 +1,4 @@
-package com.example.kotlinlearning.ui.recyclerview.demo3
+package com.example.kotlinlearning.ui.recyclerview.demo4
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,7 +10,7 @@ import com.example.kotlinlearning.utils.Constants
 import com.example.kotlinlearning.utils.CustomLogging
 import kotlinx.coroutines.*
 
-class Demo3ViewModel(private val pixabayRepository: PixabayRepository) : ViewModel() {
+class Demo4ViewModel(private val pixabayRepository: PixabayRepository) : ViewModel() {
 
 
     private var pixabayQueryImagesResponse = MutableLiveData<Resource<List<Hit>>>()

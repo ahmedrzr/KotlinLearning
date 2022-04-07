@@ -1,4 +1,4 @@
-package com.example.kotlinlearning.ui.recyclerview.demo3
+package com.example.kotlinlearning.ui.recyclerview.demo4
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.kotlinlearning.adapters.PixabayDemo2Adapter
 import com.example.kotlinlearning.adapters.PixabayDemo3Adapter
+import com.example.kotlinlearning.adapters.PixabayDemo4Adapter
 import com.example.kotlinlearning.databinding.ActivityRecyclerDemoBinding
 import com.example.kotlinlearning.models.remote.pixabay.Hit
 import com.example.kotlinlearning.network.apihelpers.Resource
@@ -23,13 +24,13 @@ import com.example.kotlinlearning.utils.LayoutViewType
 import com.example.kotlinlearning.utils.PaginationScrollListener
 
 
-class Demo3Activity : AppCompatActivity() {
+class Demo4Activity : AppCompatActivity() {
 
     private var _binding: ActivityRecyclerDemoBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var demo3ViewModel: Demo3ViewModel
-    private var pixabayDemo3Adapter: PixabayDemo3Adapter? = null
+    private lateinit var demo4ViewModel: Demo4ViewModel
+    private var pixabayDemo4Adapter: PixabayDemo4Adapter? = null
     private lateinit var layoutManager: LinearLayoutManager
     private var isLoading = false
     private var searchKeyword = Constants.API_DEFAULT_SEARCH_QUERY1
@@ -41,47 +42,47 @@ class Demo3Activity : AppCompatActivity() {
         setContentView(binding.root)
         setSupportActionBar(binding.toolbarRecyclerDemo)
         supportActionBar?.let {
-            it.title = "RecyclerView Demo 3"
+            it.title = "RecyclerView Demo 4"
             it.setDisplayHomeAsUpEnabled(true)
         }
         val pixabayRepository = PixabayRepository()
-        demo3ViewModel = ViewModelProvider(
+        demo4ViewModel = ViewModelProvider(
             this,
             KotlinLearningViewModelFactory(pixabayRepository)
-        )[Demo3ViewModel::class.java]
+        )[Demo4ViewModel::class.java]
         initRecyclerView()
         observer()
         initView()
-        demo3ViewModel.queryPixabayApiService(searchKeyword)
+        demo4ViewModel.queryPixabayApiService(searchKeyword)
 
     }
 
     private fun initView() {
 
         binding.let {
-            it.lyContents.textInputSearch.setText(demo3ViewModel.queryName)
+            it.lyContents.textInputSearch.setText(demo4ViewModel.queryName)
             it.lyContents.btnSearch.setOnClickListener { v ->
                 if (it.lyContents.textInputSearch.text.toString().isNotEmpty()) {
                     searchKeyword = it.lyContents.textInputSearch.text.toString()
-                    demo3ViewModel.queryPixabayApiService(searchKeyword)
+                    demo4ViewModel.queryPixabayApiService(searchKeyword)
                 }
             }
         }
     }
 
     private fun initRecyclerView() {
-        pixabayDemo3Adapter = PixabayDemo3Adapter()
+        pixabayDemo4Adapter = PixabayDemo4Adapter()
         layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         binding.lyContents.recyclerView.let {
             it.layoutManager = layoutManager
-            it.adapter = pixabayDemo3Adapter
+            it.adapter = pixabayDemo4Adapter
             it.addOnScrollListener(object : PaginationScrollListener(layoutManager) {
                 override fun loadMoreItems() {
-                    demo3ViewModel. queryPixabayApiService(searchKeyword)
+                    demo4ViewModel.queryPixabayApiService(searchKeyword)
                 }
 
                 override fun isLastPage(): Boolean {
-                    CustomLogging.errorLog(Demo2Activity::class.java,"isLastPage = $isLastPage")
+                    CustomLogging.errorLog(Demo2Activity::class.java, "isLastPage = $isLastPage")
                     return isLastPage
                 }
 
@@ -96,7 +97,7 @@ class Demo3Activity : AppCompatActivity() {
 
 
     private fun observer() {
-        demo3ViewModel.pixabayQueryImages.observe(this, Observer {
+        demo4ViewModel.pixabayQueryImages.observe(this, Observer {
             when (it.status) {
                 Status.LOADING -> {
                     updateLayout(LayoutViewType.LOADING, null)
@@ -112,12 +113,12 @@ class Demo3Activity : AppCompatActivity() {
                 }
             }
         })
-        demo3ViewModel.isLoading.observe(this, Observer {
+        demo4ViewModel.isLoading.observe(this, Observer {
             it.let {
                 isLoading = it
             }
         })
-        demo3ViewModel.isLastPage.observe(this, Observer { isLastPage = it })
+        demo4ViewModel.isLastPage.observe(this, Observer { isLastPage = it })
     }
 
     private fun updateLayout(status: LayoutViewType, hitData: Resource<List<Hit>>? = null) {
@@ -163,16 +164,14 @@ class Demo3Activity : AppCompatActivity() {
                 }
                 if (hitData != null) {
                     if (hitData.data != null) {
-                      //  pixabayDemo3Adapter?.updateItems(hitData.data as ArrayList<Hit>)
-                          pixabayDemo3Adapter?.differ?.submitList(hitData.data as ArrayList<Hit>)
+                        pixabayDemo4Adapter?.differ?.submitList(hitData.data as ArrayList<Hit>)
                         binding.lyContents.currentCounter.text = hitData.data.size.toString()
-                        binding.lyContents.totalCounter.text = demo3ViewModel.totalHits
+                        binding.lyContents.totalCounter.text = demo4ViewModel.totalHits
                     }
                 }
             }
         }
     }
-
 
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -183,6 +182,7 @@ class Demo3Activity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
+
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
