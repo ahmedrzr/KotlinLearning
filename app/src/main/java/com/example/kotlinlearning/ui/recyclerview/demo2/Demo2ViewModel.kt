@@ -22,7 +22,7 @@ class Demo2ViewModel(private val pixabayRepository: PixabayRepository) : ViewMod
 
     private var _queryName = MutableLiveData(Constants.API_DEFAULT_SEARCH_QUERY1)
     val queryName get() = _queryName.value!!
-    fun setSearchQuery(query: String) = _queryName.postValue(query)
+
 
     private var lastQueryString = MutableLiveData<String>()
 
@@ -33,52 +33,44 @@ class Demo2ViewModel(private val pixabayRepository: PixabayRepository) : ViewMod
     val page get() = _page.value!!
 
     private var _isLastPage = MutableLiveData(false)
-    var isLastPage = _isLastPage.value!!
+    var isLastPage = _isLastPage
 
     private var _isLoading = MutableLiveData(false)
     val isLoading = _isLoading
 
-    var isPageExist = MutableLiveData(true)
     fun queryPixabayApiService(query: String = queryName) {
         _isLoading.postValue(true)
-        if(_isLastPage.value!!) {
+        if (_isLastPage.value!! && (lastQueryString.value.toString() == query)) {
             _isLoading.postValue(false)
             return
         }
         if (lastQueryString.value != null) {
-            if (lastQueryString.value.toString() != queryName) {
+            if (lastQueryString.value.toString() != query) {
+                CustomLogging.normalLog(Demo2ViewModel::class.java, "NEW SEARCH QUERY")
                 _page.value = 1
+                imagesList.value!!.clear()
             }
         }
         pixabayQueryImagesResponse.postValue(Resource.loading(null))
         job = CoroutineScope(Dispatchers.IO + exceptioHandler).launch {
             val response =
                 pixabayRepository.queryPixabayImagesByPagination(
-                    queryName,
+                    query,
                     page.toString()
                 )
             response.let {
                 if (it.isSuccessful) {
-                    CustomLogging.normalLog(Demo2ViewModel::class.java, "SUCCESS")
                     withContext(Dispatchers.Main) {
                         _totalHits.value = it.body()!!.totalHits.toString()
-                        CustomLogging.normalLog(Demo2ViewModel::class.java, "PAGE  ${page}")
-                        lastQueryString.value = queryName
+                        lastQueryString.value = query
                         if (page > 1) {
-                            try {
-                                var list = imagesList.value!!
-                                list.addAll(it.body()!!.hits as ArrayList<Hit>)
-                                imagesList.value = list
-
-                                CustomLogging.normalLog(Demo2ViewModel::class.java, "SIZE  ${ imagesList.value!!.size}")
-                            }
-                            catch (e:Exception){
-                                CustomLogging.errorLog(Demo2ViewModel::class.java, "error  ${e.message}")
-                            }
+                            val list = imagesList.value!!
+                            list.addAll(it.body()!!.hits as ArrayList<Hit>)
+                            imagesList.value = list
                         } else {
                             imagesList.value = (it.body()!!.hits as ArrayList<Hit>)
                         }
-                        _isLastPage.value = imagesList.value!!.size == totalHits.toInt()
+                        _isLastPage.postValue(imagesList.value!!.size == totalHits.toInt())
                         pixabayQueryImagesResponse.postValue(Resource.success(imagesList.value as List<Hit>))
                         _isLoading.postValue(false)
                     }
@@ -90,14 +82,12 @@ class Demo2ViewModel(private val pixabayRepository: PixabayRepository) : ViewMod
         }
     }
 
-    fun queryPixabayApiServiceNext() {
+    fun queryPixabayApiServiceNext(searchKeyword: String) {
         if (!_isLoading.value!!) {
             _isLoading.postValue(true)
             CustomLogging.errorLog(Demo2ViewModel::class.java, _isLoading)
             _page.value = _page.value!!.toInt() + 1
-            queryPixabayApiService()
-        } else {
-            CustomLogging.normalLog(Demo2ViewModel::class.java, _isLoading)
+            queryPixabayApiService(searchKeyword)
         }
     }
 

@@ -103,8 +103,7 @@ class Demo1Activity : AppCompatActivity() {
                     it.includeLyError.lyError.visibility = View.GONE
                     it.recyclerView.visibility = View.GONE
                     it.lyCounter.visibility = View.GONE
-                    Glide.with(this).load(R.drawable.loading_circle)
-                        .into(it.includeLyLoading.loadingImg)
+
                 }
             }
             LayoutViewType.EMPTY -> {

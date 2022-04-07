@@ -17,6 +17,7 @@ import com.example.kotlinlearning.network.apihelpers.Resource
 import com.example.kotlinlearning.network.apihelpers.Status
 import com.example.kotlinlearning.ui.recyclerview.KotlinLearningViewModelFactory
 import com.example.kotlinlearning.ui.recyclerview.repository.PixabayRepository
+import com.example.kotlinlearning.utils.Constants
 import com.example.kotlinlearning.utils.CustomLogging
 import com.example.kotlinlearning.utils.LayoutViewType
 import com.example.kotlinlearning.utils.PaginationScrollListener
@@ -30,6 +31,8 @@ class Demo2Activity : AppCompatActivity() {
     private var pixabayDemo2Adapter: PixabayDemo2Adapter? = null
     private lateinit var layoutManager: LinearLayoutManager
     private var isLoading = false
+    private var searchKeyword = Constants.API_DEFAULT_SEARCH_QUERY1
+    private var isLastPage = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,7 +51,7 @@ class Demo2Activity : AppCompatActivity() {
         initRecyclerView()
         observer()
         initView()
-        demo2ViewModel.queryPixabayApiService()
+        demo2ViewModel.queryPixabayApiService(searchKeyword)
     }
 
     private fun initView() {
@@ -56,8 +59,10 @@ class Demo2Activity : AppCompatActivity() {
         binding.let {
             it.lyContents.textInputSearch.setText(demo2ViewModel.queryName)
             it.lyContents.btnSearch.setOnClickListener { v ->
-                demo2ViewModel.setSearchQuery(it.lyContents.textInputSearch.text.toString())
-                demo2ViewModel.queryPixabayApiService()
+                if (it.lyContents.textInputSearch.text.toString().isNotEmpty()) {
+                    searchKeyword = it.lyContents.textInputSearch.text.toString()
+                    demo2ViewModel.queryPixabayApiService(searchKeyword)
+                }
             }
         }
     }
@@ -70,12 +75,12 @@ class Demo2Activity : AppCompatActivity() {
             it.adapter = pixabayDemo2Adapter
             it.addOnScrollListener(object : PaginationScrollListener(layoutManager) {
                 override fun loadMoreItems() {
-                    CustomLogging.normalLog(Demo2Activity::class.java, "LOAD MORE DATA")
-                    demo2ViewModel.queryPixabayApiServiceNext()
+                    demo2ViewModel.queryPixabayApiServiceNext(searchKeyword)
                 }
 
                 override fun isLastPage(): Boolean {
-                    return demo2ViewModel.isLastPage
+                    CustomLogging.errorLog(Demo2Activity::class.java,"isLastPage = $isLastPage")
+                    return isLastPage
                 }
 
                 override fun isLoading(): Boolean {
@@ -105,10 +110,11 @@ class Demo2Activity : AppCompatActivity() {
             }
         })
         demo2ViewModel.isLoading.observe(this, Observer {
-              it.let {
-                  isLoading = it
-              }
+            it.let {
+                isLoading = it
+            }
         })
+        demo2ViewModel.isLastPage.observe(this, Observer { isLastPage = it })
     }
 
     private fun updateLayout(status: LayoutViewType, hitData: Resource<List<Hit>>? = null) {
@@ -118,10 +124,9 @@ class Demo2Activity : AppCompatActivity() {
                     it.includeLyLoading.lyLoading.visibility = View.VISIBLE
                     it.includeLyEmpty.lyEmpty.visibility = View.GONE
                     it.includeLyError.lyError.visibility = View.GONE
-                    it.recyclerView.visibility = View.GONE
+                    it.recyclerView.visibility = View.VISIBLE
                     it.lyCounter.visibility = View.GONE
-                    Glide.with(this).load(R.drawable.loading_circle)
-                        .into(it.includeLyLoading.loadingImg)
+
                 }
             }
             LayoutViewType.EMPTY -> {
@@ -155,12 +160,6 @@ class Demo2Activity : AppCompatActivity() {
                 }
                 if (hitData != null) {
                     if (hitData.data != null) {
-                        if(hitData.data.size>25){
-                            CustomLogging.normalLog(Demo2Activity::class.java, hitData.data.size)
-                            CustomLogging.errorLog(Demo2Activity::class.java, hitData.data)
-
-
-                        }
                         pixabayDemo2Adapter?.updateItems(hitData.data as ArrayList<Hit>)
                         binding.lyContents.currentCounter.text = hitData.data.size.toString()
                         binding.lyContents.totalCounter.text = demo2ViewModel.totalHits
