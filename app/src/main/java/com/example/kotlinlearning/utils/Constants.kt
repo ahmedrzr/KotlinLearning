@@ -11,6 +11,7 @@ object Constants {
     const val demo5 = 5
     const val demo6 = 6
     const val demo = "demo"
+    const val PIXABAY="PIZABAY"
     const val PIXABAY_KEY = BuildConfig.PIXABAY_KEY
     const val PIXABAY_URL = BuildConfig.PIXABAY_URL
     const val API_DEFAULT_SEARCH_QUERY1 = "India"

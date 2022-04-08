@@ -12,9 +12,10 @@ import kotlinx.coroutines.*
 
 class Demo6ViewModel(private val pixabayRepository: PixabayRepository) : ViewModel() {
 
-
     private var pixabayQueryImagesResponse = MutableLiveData<Resource<List<Hit>>>()
-    private var imagesList = MutableLiveData<ArrayList<Hit>>()
+    private var _imagesList = ArrayList<Hit>()
+
+    val imagesList = MutableLiveData<ArrayList<Hit>>()
     val pixabayQueryImages get() = pixabayQueryImagesResponse
     private var job: Job? = null
     private val exceptioHandler = CoroutineExceptionHandler { _, throwable ->
@@ -38,7 +39,7 @@ class Demo6ViewModel(private val pixabayRepository: PixabayRepository) : ViewMod
 
     private var _isLoading = MutableLiveData(false)
     val isLoading = _isLoading
-
+    var loadingData = ArrayList<Hit>()
     fun queryPixabayApiService(query: String = queryName) {
         if (!_isLoading.value!!) {
             _isLoading.postValue(true)
@@ -49,10 +50,17 @@ class Demo6ViewModel(private val pixabayRepository: PixabayRepository) : ViewMod
             if (lastQueryString.value != null) {
                 if (lastQueryString.value.toString() != query) {
                     _page.value = 1
-                    imagesList.value!!.clear()
-                } else _page.value = _page.value!!.toInt() + 1
+                    _imagesList.clear()
+                    imagesList.postValue(_imagesList)
+                } else {
+                    _page.value = _page.value!!.toInt() + 1
+                    val hit = Hit()
+                    _imagesList.add(hit)
+                    imagesList.postValue(_imagesList)
+                }
             }
-            pixabayQueryImagesResponse.postValue(Resource.loading(null))
+
+            pixabayQueryImagesResponse.postValue(Resource.loading(imagesList.value))
             job = CoroutineScope(Dispatchers.IO + exceptioHandler).launch {
                 val response =
                     pixabayRepository.queryPixabayImagesByPagination(
@@ -65,11 +73,14 @@ class Demo6ViewModel(private val pixabayRepository: PixabayRepository) : ViewMod
                             _totalHits.value = it.body()!!.totalHits.toString()
                             lastQueryString.value = query
                             if (page > 1) {
-                                val list = imagesList.value!!
-                                list.addAll(it.body()!!.hits as ArrayList<Hit>)
-                                imagesList.value = list
+                                delay(5000)
+                                _imagesList = imagesList.value!!
+                                _imagesList.removeLast()
+                                _imagesList.addAll(it.body()!!.hits as ArrayList<Hit>)
+                                imagesList.value = _imagesList
                             } else {
-                                imagesList.value = (it.body()!!.hits as ArrayList<Hit>)
+                                _imagesList.addAll(it.body()!!.hits as ArrayList<Hit>)
+                                imagesList.value = _imagesList
                             }
                             _isLastPage.postValue(imagesList.value!!.size == totalHits.toInt())
                             pixabayQueryImagesResponse.postValue(Resource.success(imagesList.value as List<Hit>))

@@ -8,6 +8,8 @@ import com.example.kotlinlearning.ui.recyclerview.demo3.Demo3ViewModel
 import com.example.kotlinlearning.ui.recyclerview.demo4.Demo4ViewModel
 import com.example.kotlinlearning.ui.recyclerview.demo5.Demo5ViewModel
 import com.example.kotlinlearning.ui.recyclerview.demo6.Demo6ViewModel
+import com.example.kotlinlearning.ui.recyclerview.demo7.Demo7ViewModel
+import com.example.kotlinlearning.ui.recyclerview.demo8.Demo8ViewModel
 import com.example.kotlinlearning.ui.recyclerview.repository.PixabayRepository
 import java.lang.IllegalArgumentException
 
@@ -30,8 +32,14 @@ class KotlinLearningViewModelFactory(private val pixabayRepository: PixabayRepos
                             return Demo5ViewModel(pixabayRepository!!) as T
                         else
                             if (modelClass.isAssignableFrom(Demo6ViewModel::class.java))
-                                return Demo6ViewModel(pixabayRepository!!) as T
+                                return Demo7ViewModel(pixabayRepository!!) as T
                             else
+                                if (modelClass.isAssignableFrom(Demo8ViewModel::class.java))
+                                    return Demo8ViewModel(pixabayRepository!!) as T
+                                else
+                                    if (modelClass.isAssignableFrom(Demo7ViewModel::class.java))
+                                        return Demo7ViewModel(pixabayRepository!!) as T
+                                    else
                                 throw IllegalArgumentException("ViewModel Not Found!!")
     }
 }

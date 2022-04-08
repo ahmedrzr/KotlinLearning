@@ -1,4 +1,4 @@
-package com.example.kotlinlearning.ui.recyclerview.demo6
+package com.example.kotlinlearning.ui.recyclerview.demo8
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.kotlinlearning.adapters.PixabayDemo5Adapter
 import com.example.kotlinlearning.adapters.PixabayDemo6Adapter
+import com.example.kotlinlearning.adapters.PixabayDemo8Adapter
 import com.example.kotlinlearning.databinding.ActivityRecyclerDemoBinding
 import com.example.kotlinlearning.models.remote.pixabay.Hit
 import com.example.kotlinlearning.network.apihelpers.Resource
@@ -24,12 +25,12 @@ import com.example.kotlinlearning.utils.CustomLogging
 import com.example.kotlinlearning.utils.LayoutViewType
 import com.example.kotlinlearning.utils.PaginationScrollListener
 
-class Demo6Activity : AppCompatActivity() {
+class Demo8Activity : AppCompatActivity() {
     private var _binding: ActivityRecyclerDemoBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var demo6ViewModel: Demo6ViewModel
-    private var pixabayDemo6Adapter: PixabayDemo6Adapter? = null
+    private lateinit var demo8ViewModel: Demo8ViewModel
+    private var pixabayDemo8Adapter: PixabayDemo8Adapter? = null
     private lateinit var layoutManager: LinearLayoutManager
     private var isLoading = false
     private var searchKeyword = Constants.API_DEFAULT_SEARCH_QUERY1
@@ -45,40 +46,40 @@ class Demo6Activity : AppCompatActivity() {
             it.setDisplayHomeAsUpEnabled(true)
         }
         val pixabayRepository = PixabayRepository()
-        demo6ViewModel = ViewModelProvider(
+        demo8ViewModel = ViewModelProvider(
             this,
             KotlinLearningViewModelFactory(pixabayRepository)
-        )[Demo6ViewModel::class.java]
+        )[Demo8ViewModel::class.java]
         initRecyclerView()
         observer()
         initView()
-        demo6ViewModel.queryPixabayApiService(searchKeyword)
+        demo8ViewModel.queryPixabayApiService(searchKeyword)
 
     }
 
     private fun initView() {
 
         binding.let {
-            it.lyContents.textInputSearch.setText(demo6ViewModel.queryName)
+            it.lyContents.textInputSearch.setText(demo8ViewModel.queryName)
             it.lyContents.btnSearch.setOnClickListener { v ->
                 if (it.lyContents.textInputSearch.text.toString().isNotEmpty()) {
                     searchKeyword = it.lyContents.textInputSearch.text.toString()
-                    demo6ViewModel.queryPixabayApiService(searchKeyword)
+                    demo8ViewModel.queryPixabayApiService(searchKeyword)
                 }
             }
         }
     }
 
     private fun initRecyclerView() {
-        pixabayDemo6Adapter = PixabayDemo6Adapter()
+        pixabayDemo8Adapter = PixabayDemo8Adapter()
         layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         binding.lyContents.recyclerView.let {
             it.layoutManager = layoutManager
-            it.adapter = pixabayDemo6Adapter
+            it.adapter = pixabayDemo8Adapter
             it.addOnScrollListener(object : PaginationScrollListener(layoutManager) {
                 override fun loadMoreItems() {
                     isLoading = true
-                    demo6ViewModel.queryPixabayApiService(searchKeyword)
+                    demo8ViewModel.queryPixabayApiService(searchKeyword)
                 }
 
                 override fun isLastPage(): Boolean {
@@ -93,7 +94,7 @@ class Demo6Activity : AppCompatActivity() {
                 }
             })
         }
-        pixabayDemo6Adapter!!.setOItemClickListener {
+        pixabayDemo8Adapter!!.setOItemClickListener {
             Intent(this, PixabayImageActivity::class.java).apply {
                 putExtra(Constants.PIXABAY, it)
                 startActivity(this)
@@ -103,7 +104,7 @@ class Demo6Activity : AppCompatActivity() {
 
 
     private fun observer() {
-        demo6ViewModel.pixabayQueryImages.observe(this, Observer {
+        demo8ViewModel.pixabayQueryImages.observe(this, Observer {
             when (it.status) {
                 Status.LOADING -> {
                     updateLayout(LayoutViewType.LOADING, it)
@@ -119,12 +120,12 @@ class Demo6Activity : AppCompatActivity() {
                 }
             }
         })
-        demo6ViewModel.isLoading.observe(this, Observer {
+        demo8ViewModel.isLoading.observe(this, Observer {
             it.let {
                 isLoading = it
             }
         })
-        demo6ViewModel.isLastPage.observe(this, Observer { isLastPage = it })
+        demo8ViewModel.isLastPage.observe(this, Observer { isLastPage = it })
     }
 
     private fun updateLayout(status: LayoutViewType, hitData: Resource<List<Hit>>? = null) {
@@ -137,12 +138,12 @@ class Demo6Activity : AppCompatActivity() {
                         it.includeLyError.lyError.visibility = View.GONE
                         it.recyclerView.visibility = View.VISIBLE
                         it.lyCounter.visibility = View.GONE
-                        if (pixabayDemo6Adapter!!.differ.currentList.size == 0) {
+                        if (pixabayDemo8Adapter!!.differ.currentList.size == 0) {
                             it.includeLyLoading.lyLoading.visibility = View.VISIBLE
                         } else {
                             hitData.data?.let { it1 ->
-                                var data = demo6ViewModel.imagesList.value
-                                pixabayDemo6Adapter!!.differ.submitList(data)
+                                var data = demo8ViewModel.imagesList.value
+                                pixabayDemo8Adapter!!.differ.submitList(data)
                             }
                         }
                     }
@@ -179,10 +180,10 @@ class Demo6Activity : AppCompatActivity() {
                 }
                 if (hitData != null) {
                     if (hitData.data != null) {
-                        val data = demo6ViewModel.imagesList.value
-                        pixabayDemo6Adapter?.differ?.submitList(data)
+                        val data = demo8ViewModel.imagesList.value
+                        pixabayDemo8Adapter?.differ?.submitList(data)
                         binding.lyContents.currentCounter.text = hitData.data.size.toString()
-                        binding.lyContents.totalCounter.text = demo6ViewModel.totalHits
+                        binding.lyContents.totalCounter.text = demo8ViewModel.totalHits
                     }
                 }
             }

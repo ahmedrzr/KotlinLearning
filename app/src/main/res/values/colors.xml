@@ -14,5 +14,13 @@
     <color name="gray_50">#fafafa</color>
     <color name="teal_800">#004d40</color>
     <color name="brown_600">#6d4c41</color>
-    <color name="pink_500">#e91e63    </color>
+    <color name="pink_500">#e91e63</color>
+    <color name="pink_A400">#f50057</color>
+    <color name="deep_orange_A400">#ff3d00</color>
+    <color name="red_A700">#d50000</color>
+    <color name="light_blue_600">#FF039BE5</color>
+    <color name="light_blue_900">#FF01579B</color>
+    <color name="light_blue_A200">#FF40C4FF</color>
+    <color name="light_blue_A400">#FF00B0FF</color>
+    <color name="black_overlay">#66000000</color>
 </resources>

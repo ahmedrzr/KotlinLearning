@@ -4,7 +4,7 @@ class Resource<out T>(val status: Status, val data: T? = null, val message: Stri
 
     companion object {
         fun <T> loading(data: T?): Resource<T> =
-            Resource(Status.LOADING, null, null)
+            Resource(Status.LOADING, data, null)
 
         fun <T> success(data: T?): Resource<T> =
             Resource(Status.SUCCESS, data, null)

@@ -17,9 +17,9 @@ import com.example.kotlinlearning.utils.LayoutViewType
 import com.example.kotlinlearning.utils.PixabayDiffCallback
 import de.hdodenhof.circleimageview.CircleImageView
 
-class PixabayDemo4Adapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class PixabayDemo5Adapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var pixabayImgList = ArrayList<Hit>()
-
+    private var isLoading = false
 
     inner class PixabayHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
@@ -30,8 +30,9 @@ class PixabayDemo4Adapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         val tag = itemView.findViewById<TextView>(R.id.image_tag)
 
         fun bind(hit: Hit) {
-            previewImage.setImageURI(Uri.parse(hit.userImageURL))
-
+            Glide.with(itemView.context).load(hit.userImageURL)
+                .centerCrop()
+                .into(profileImage)
             Glide.with(itemView.context).load(hit.largeImageURL)
                 .centerCrop()
                 .into(previewImage)
@@ -49,7 +50,9 @@ class PixabayDemo4Adapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         val tag = itemView.findViewById<TextView>(R.id.image_tag)
         fun bindFilter(hit: Hit) {
             previewImage.setImageURI(Uri.parse(hit.userImageURL))
-
+            Glide.with(itemView.context).load(hit.userImageURL)
+                .centerCrop()
+                .into(profileImage)
             Glide.with(itemView.context).load(hit.largeImageURL)
                 .centerCrop()
                 .into(previewImage)
@@ -59,13 +62,21 @@ class PixabayDemo4Adapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         }
     }
 
+    inner class PixabayHolderLoading(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
+        fun bindLoading(hit: Hit) {
+
+        }
+    }
+
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 
         return when (viewType) {
             0 ->
                 PixabayHolder(parent.inflate(R.layout.pixabay_item_row, false))
-
-            else -> PixabayHolderFilter(parent.inflate(R.layout.pixabay_item_filter_row, false))
+            1 -> PixabayHolderFilter(parent.inflate(R.layout.pixabay_item_filter_row, false))
+            else -> PixabayHolderLoading(parent.inflate(R.layout.bottom_loading_itemt_row, false))
         }
     }
 
@@ -73,16 +84,12 @@ class PixabayDemo4Adapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         return LayoutInflater.from(context).inflate(layoutRes, this, attachToRoot)
     }
 
-//    override fun onBindViewHolder(holder: PixabayHolder, position: Int) {
-//        val hit = differ.currentList[position]
-//        holder.bind(hit)
-//    }
-
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val hit = differ.currentList[position]
         when (holder.itemViewType) {
             0 -> (holder as PixabayHolder).bind(hit)
-            else -> (holder as PixabayHolderFilter).bindFilter(hit)
+            1 -> (holder as PixabayHolderFilter).bindFilter(hit)
+            2 -> (holder as PixabayHolderLoading).bindLoading(hit)
 
         }
     }
@@ -95,19 +102,24 @@ class PixabayDemo4Adapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         override fun areContentsTheSame(oldItem: Hit, newItem: Hit) =
             oldItem.previewURL == newItem.previewURL
 
+        override fun getChangePayload(oldItem: Hit, newItem: Hit): Any? {
+            return super.getChangePayload(oldItem, newItem)
+        }
+
     }
     val differ = AsyncListDiffer(this, diffCallback)
     override fun getItemCount() = differ.currentList.size
 
     override fun getItemViewType(position: Int): Int {
-        return if (differ.currentList[position].tags?.contains("sex") == true) 1
-        else 0
-
+        return when {
+            differ.currentList[position].tags?.contains("sex") == true -> 1
+            differ.currentList[position].tags?.contains("LOADING") == true -> 2
+            else -> 0
+        }
     }
 
-    enum class ViewStatus(value:Int) {
-        NORMAL(0),
-        FILTER(1)
+    fun addLoadingView(triggerLoading: Boolean) {
+        isLoading = triggerLoading
     }
 
 

@@ -14,6 +14,8 @@ import com.example.kotlinlearning.ui.recyclerview.demo3.Demo3Activity
 import com.example.kotlinlearning.ui.recyclerview.demo4.Demo4Activity
 import com.example.kotlinlearning.ui.recyclerview.demo5.Demo5Activity
 import com.example.kotlinlearning.ui.recyclerview.demo6.Demo6Activity
+import com.example.kotlinlearning.ui.recyclerview.demo7.Demo7Activity
+import com.example.kotlinlearning.ui.recyclerview.demo8.Demo8Activity
 import com.example.kotlinlearning.utils.Constants
 
 private val TAG = RecyclerViewFragment::class.java.simpleName
@@ -67,6 +69,18 @@ class RecyclerViewFragment : Fragment() {
             }
             it.demo6Btn.setOnClickListener {
                 Intent(context, Demo6Activity::class.java).apply {
+                    putExtra(Constants.demo, Constants.demo6)
+                    startActivity(this)
+                }
+            }
+            it . demo7Btn . setOnClickListener {
+                Intent(context, Demo7Activity::class.java).apply {
+                    putExtra(Constants.demo, Constants.demo6)
+                    startActivity(this)
+                }
+            }
+            it . demo8Btn . setOnClickListener {
+                Intent(context, Demo8Activity::class.java).apply {
                     putExtra(Constants.demo, Constants.demo6)
                     startActivity(this)
                 }

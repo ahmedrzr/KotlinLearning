@@ -13,6 +13,6 @@ object CustomLogging {
 
     fun <T> errorLog(c: Class<T>, data: Any) {
         if (BuildConfig.DEBUG)
-            Log.e(c.simpleName, "normalLog: ${Gson().toJson(data)} ")
+            Log.e(c.simpleName, "errorLog: ${Gson().toJson(data)} ")
     }
 }

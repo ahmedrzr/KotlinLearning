@@ -9,5 +9,8 @@
 
     <string name="menu_home">Home</string>
     <string name="menu_recycler_view">RecyclerView</string>
+    <string name="title_activity_pixabay_image">PixabayImageActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 
 </resources>
