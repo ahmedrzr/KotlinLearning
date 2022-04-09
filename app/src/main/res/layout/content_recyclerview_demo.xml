@@ -43,12 +43,12 @@
         </LinearLayout>
 
         <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            app:cardCornerRadius="10dp"
             android:id="@+id/lyCounter"
-            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:layout_height="wrap_content">
+            android:visibility="gone"
+            app:cardCornerRadius="10dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -86,9 +86,9 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="4"
-                    android:textColor="@color/white"
                     android:gravity="center"
                     android:text="500"
+                    android:textColor="@color/white"
                     android:textSize="20sp"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -115,6 +115,12 @@
                 android:id="@+id/recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:visibility="gone" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view2"
+                android:background="@color/pink_500"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
                 android:visibility="gone" />
         </FrameLayout>
 

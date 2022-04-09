@@ -8,6 +8,7 @@ import android.view.MenuItem
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.kotlinlearning.adapters.PixabayDemo6Adapter
 import com.example.kotlinlearning.adapters.PixabayDemo7Adapter
@@ -65,7 +66,8 @@ class Demo7Activity : AppCompatActivity() {
             it.includeLyLoading.lyLoading.visibility = View.GONE
             it.includeLyEmpty.lyEmpty.visibility = View.GONE
             it.includeLyError.lyError.visibility = View.GONE
-            it.recyclerView.visibility = View.VISIBLE
+            it.recyclerView.visibility = View.GONE
+            it.recyclerView2.visibility = View.VISIBLE
             it.lyCounter.visibility = View.GONE
             it.lySearch.visibility = View.GONE
         }
@@ -83,10 +85,12 @@ class Demo7Activity : AppCompatActivity() {
         CustomLogging.errorLog(Demo7Activity::class.java, "SCREEN HEIGHT _ $screenHeight")
 
         pixabayDemo7Adapter = PixabayDemo7Adapter(thingsList)
-      // layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+      var layoutManager1 = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+      var layoutManager2 =  GridLayoutManager(this,3)
         layoutManager = CustomLayoutManager(resources,screenWidth)
-        binding.lyContents.recyclerView.let {
-            it.layoutManager = layoutManager
+        val textLayoutManager = TestLayoutManager(resources,screenWidth)
+        binding.lyContents.recyclerView2.let {
+            it.layoutManager = textLayoutManager
             it.adapter = pixabayDemo7Adapter
          //   it.layoutParams.height = screenWidth/2
         }
