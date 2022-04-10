@@ -32,7 +32,7 @@ class KotlinLearningViewModelFactory(private val pixabayRepository: PixabayRepos
                             return Demo5ViewModel(pixabayRepository!!) as T
                         else
                             if (modelClass.isAssignableFrom(Demo6ViewModel::class.java))
-                                return Demo7ViewModel(pixabayRepository!!) as T
+                                return Demo6ViewModel(pixabayRepository!!) as T
                             else
                                 if (modelClass.isAssignableFrom(Demo8ViewModel::class.java))
                                     return Demo8ViewModel(pixabayRepository!!) as T

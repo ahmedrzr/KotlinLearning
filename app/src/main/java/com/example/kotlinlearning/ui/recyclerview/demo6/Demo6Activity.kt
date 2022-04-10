@@ -41,7 +41,7 @@ class Demo6Activity : AppCompatActivity() {
         setContentView(binding.root)
         setSupportActionBar(binding.toolbarRecyclerDemo)
         supportActionBar?.let {
-            it.title = "RecyclerView Demo 4"
+            it.title = "RecyclerView Demo 6"
             it.setDisplayHomeAsUpEnabled(true)
         }
         val pixabayRepository = PixabayRepository()

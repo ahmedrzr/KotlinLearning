@@ -120,7 +120,7 @@
                 android:id="@+id/recycler_view2"
                 android:background="@color/pink_500"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="match_parent"
                 android:visibility="gone" />
         </FrameLayout>
 
