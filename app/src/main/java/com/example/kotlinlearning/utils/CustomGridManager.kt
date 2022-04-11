@@ -15,8 +15,8 @@ class CustomGridManager(resources: Resources, private val screenWidth: Int) :
     private var totalHeight = 0
     private var viewWidth = 0
     private var viewHeight = 0
-    private var viewRight = 0
-    private var viewTop = 0
+    private var viewTopReset = 0
+    private var viewLeftReset = 0
     private val recyclerViewHeight =
         (resources.getDimensionPixelSize(R.dimen.recyclerview_height)).toDouble()
 
@@ -33,16 +33,11 @@ class CustomGridManager(resources: Resources, private val screenWidth: Int) :
     }
 
     private fun fill(recycler: RecyclerView.Recycler, state: RecyclerView.State) {
-        var i = 0
-        for (index in 0..1) {
-            val view = recycler.getViewForPosition(index)
-                addView(view)
-            if (viewRight == totalWidth) {
-                i = -1
-                viewTop=viewHeight
-            }
-            i++
-            layoutChildView(i, viewWidth, view, viewHeight)
+
+        for (itemPosition in 0 until itemCount) {
+            val view = recycler.getViewForPosition(itemPosition)
+            addView(view)
+            layoutChildView(itemPosition, viewWidth, view, viewHeight)
         }
 
     }
@@ -51,15 +46,24 @@ class CustomGridManager(resources: Resources, private val screenWidth: Int) :
         i: Int, viewWidthWithSpacing: Int, view: View,
         viewHighrWithSpacing: Int
     ) {
-        val left = i * viewWidthWithSpacing
-        viewRight = left + viewWidthWithSpacing
-        val top =  viewTop
-        val bottom = top + viewHighrWithSpacing
+        if (i <= 1) {
+            val left = i * viewWidthWithSpacing
+            val right = left + viewWidthWithSpacing
+            val top = 0
+            val bottom = top + viewHighrWithSpacing
+            measureChild(view, viewWidthWithSpacing, viewHighrWithSpacing)
+            layoutDecorated(view, left, top, right, bottom)
+        } else {
+            val left = viewLeftReset * viewWidthWithSpacing
+            val right = left + viewWidthWithSpacing
+            val top = viewHighrWithSpacing
+            val bottom = top + viewHighrWithSpacing
+            measureChild(view, viewWidthWithSpacing, viewHighrWithSpacing)
+            layoutDecorated(view, left, top, right, bottom)
+            viewLeftReset++
+            CustomLogging.normalLog(CustomGridManager::class.java, "i : $i")
+        }
 
 
-        measureChild(view, viewWidthWithSpacing, viewHighrWithSpacing)
-
-
-        layoutDecorated(view, left, top, viewRight, bottom)
     }
 }
