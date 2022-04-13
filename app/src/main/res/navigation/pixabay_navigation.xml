@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/pixabay_navigation"
+    app:startDestination="@id/pixabayListFragment">
+
+    <fragment
+        android:id="@+id/pixabayImageFragment"
+        android:name="com.example.kotlinlearning.ui.fragments.demo1.PixabayImageFragment"
+        android:label="fragment_pixabay_image"
+        tools:layout="@layout/fragment_pixabay_image" />
+    <fragment
+        android:id="@+id/pixabayListFragment"
+        android:name="com.example.kotlinlearning.ui.fragments.demo1.PixabayListFragment"
+        android:label="fragment_pixabay_list"
+        tools:layout="@layout/fragment_pixabay_list" >
+
+        <action
+            android:id="@+id/action_pixabayListFragment_to_pixabayImageDetailsFragment"
+            app:destination="@id/pixabayImageDetailsFragment" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/fragment_pixabay_image_details"
+        android:id="@+id/pixabayImageDetailsFragment"
+        android:name="com.example.kotlinlearning.ui.fragments.demo1.PixabayImageDetailsFragment"
+        android:label="PixabayImageDetailsFragment" >
+        <action
+            android:id="@+id/action_pixabayImageDetailsFragment_to_pixabayImageFragment"
+            app:destination="@id/pixabayImageFragment" />
+    </fragment>
+</navigation>

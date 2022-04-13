@@ -16,5 +16,10 @@
         android:name="com.example.kotlinlearning.ui.recyclerview.RecyclerViewFragment"
         android:label="@string/menu_recycler_view"
         tools:layout="@layout/fragment_recyclerview" />
+    <fragment
+        android:id="@+id/nav_fragments"
+        android:name="com.example.kotlinlearning.ui.fragments.FragmentsDemoFragment"
+        android:label="FragmentsDemo"
+        tools:layout="@layout/fragment_demo_fragment" />
 
 </navigation>

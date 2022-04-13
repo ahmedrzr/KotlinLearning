@@ -12,6 +12,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.KotlinLearning">
         <activity
+            android:name=".ui.fragments.demo1.Demo1FragmentActivity"
+            android:exported="false"
+            android:theme="@style/Theme.KotlinLearning.NoActionBar" />
+        <activity
             android:name=".ui.recyclerview.PixabayImageActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="false"
